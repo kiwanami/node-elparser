@@ -34,7 +34,7 @@ console.log(obj2.toObject());
 elparser.encode([1,1.2,-4,"xxx",[www],true,null])
 // => "(1 1.2 -4 \"xxx\" www t nil)"
  
-elparser.encode({:a => [1,2,3], :b => {:c => [4,5,6]}})
+elparser.encode({a:[1,2,3], b:{c:[4,5,6]}})
 // => "((a 1 2 3) (b (c 4 5 6)))"
 ```
 
@@ -116,8 +116,8 @@ Cons cells and lists are translated to arrays.
 | cons cell         | `(a . b)`           | `["a","b"]`           |
 | dot list          | `(a b . d)`         | `["a","b","c"]`       |
 | alist(`toJS`)     | `((a . 1) (b . 2))` | `[["a",1],["b",2]]`   |
-| alist(`toObject`) | `((a . 1) (b . 2))` | `{"a"=>1,"b"=>2}`     |
-| alist list        | `((a 1 2) (b . 3))` | `{"a"=>[1,2],"b"=>3}` |
+| alist(`toObject`) | `((a . 1) (b . 2))` | `{"a":1,"b":2}`     |
+| alist list        | `((a 1 2) (b . 3))` | `{"a":[1,2],"b":3}` |
 
 #### Encoding (JavaScript -> S-expression)
 
