@@ -126,6 +126,14 @@ describe("Stringify",function() {
 		assert.equal(obj.toStr(),org);
 	});
 
+	it("should pass SExpAbstract objects.", function() {
+		var msym = pc.ast.SExpSymbol;
+		var mcons = pc.ast.SExpCons;
+		var mnum = pc.ast.SExpNumber;
+		var obj = [1, new msym("abc"), new mcons(new msym("a"), mnum.intVal(2))];
+		assert.equal(pc.encode(obj), "(1 abc (a . 2))");
+	});
+
 	it("should make a sexp string from some list ASTs.",function() {
 		var org,obj;
 		org = "(+ 1 2 (- 2 (* 3 4)))";
