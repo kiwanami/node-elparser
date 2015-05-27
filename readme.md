@@ -86,7 +86,7 @@ elisp S-expressions. The another method `elparser.encodeMulti`
 receives an array of JavaScript objects and returns a S-expression string in
 which multiple S-expressions are concatenated.
 
-If an object which is not defined in serialization rules is given,
+If an object which is not defined in the serialization rules is given,
 this method raises an exception with some messages.
 See the next section for the encoding detail.
 
@@ -122,10 +122,7 @@ Cons cells and lists are translated to arrays.
 #### Encoding (JavaScript -> S-expression)
 
 The Array and Object instances are translated to lists and alist
-respectively.  Cons cells and quoted expressions can't be expressed by
-any JavaScript object.  If those S-expressions are needed, one can obtain
-such S-expressions with creating instances of `SExpCons` and
-`SExpQuoted` directly and calling the `toStr` method.
+respectively.
 
 | type       | JavaScript (input)                 | S-exp (output)                    |
 |------------|------------------------------------|-----------------------------------|
@@ -134,6 +131,27 @@ such S-expressions with creating instances of `SExpCons` and
 | nest list  | `[1,[2,[3,4]]]`                    | `(1 (2 (3 4)))`                   |
 | hash       | `{"a":"b", "c":"d"}`               | `(("a" . "b") ("c" . "d"))`       |
 | hash       | `{"a":[1,2,3], "b":{"c":[4,5,6]}}` | `(("a" 1 2 3) ("b" ("c" 4 5 6)))` |
+
+##### Exception
+
+The encoding functions, `encode` and `encodeMulti` receive a boolean parameter as `throwException`. If `throwException` is true, these functions throw `SerializationError` for wrong objects which are not defined in the serialization rules. If the parameter is false or omitted, these functions translate wrong objects by `toString` without any exception.
+
+##### Using S-expression AST
+
+Symbol, Cons cells and quoted expressions can't be expressed by any
+JavaScript object. If those S-expressions are needed, one can obtain
+such S-expressions with creating AST instances of `SExpCons` and
+`SExpQuoted` directly.
+
+```javascript
+var elparser = require('elparser');
+var ast   = elparser.ast;
+var msym  = ast.SExpSymbol;
+var mcons = ast.SExpCons;
+var mnum  = ast.SExpNumber;
+elparser.encode([1, new msym("abc"), new mcons(new msym("a"), mnum.intVal(2))]);
+// => "(1 abc (a . 2))"
+```
 
 ## License
 

@@ -102,6 +102,48 @@ describe("Cons / List", function() {
 	});
 });
 
+describe("Exception", function() {
+	it("should throw an exception for wrong syntax.", function() {
+		assert.throws(function() {
+			pc.parse("([)]");
+		},pc.SyntaxError);
+	});
+	
+	it("should throw an exception for NaN,Inf.", function() {
+		assert.throws(function() {
+			var ret = pc.encode( parseInt("a"), true ); // NaN
+			console.log(ret);
+		},pc.SerializationError);
+		assert.throws(function() {
+			var ret = pc.encode( 1/0, true ); // Inf
+			console.log(ret);
+		},pc.SerializationError);
+		assert.throws(function() {
+			var ret = pc.encode( -1/0, true ); // -Inf
+			console.log(ret);
+		},pc.SerializationError);
+	});
+	
+	it("should throw an exception for wrong objects.", function() {
+		assert.throws(function() {
+			var ret = pc.encode( new Date() , true);
+			console.log(ret);
+		},pc.SerializationError);
+		assert.throws(function() {
+			var ret = pc.encode( function() {} , true);
+			console.log(ret);
+		},pc.SerializationError);
+		assert.throws(function() {
+			var ret = pc.encode( /abc/ , true);
+			console.log(ret);
+		},pc.SerializationError);
+		assert.throws(function() {
+			var ret = pc.encode( new Error("abc") , true);
+			console.log(ret);
+		},pc.SerializationError);
+	});
+});
+
 describe("Performance", function() {
 	it("should evaluate large S-expressions.",function() {
 		var size = 100000;
