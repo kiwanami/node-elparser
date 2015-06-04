@@ -1,6 +1,6 @@
 {
     "name": "elparser",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "A parser for S-expression of emacs lisp and some utilities.",
     "homepage": "https://github.com/kiwanami/node-elparser",
     "repository": {
