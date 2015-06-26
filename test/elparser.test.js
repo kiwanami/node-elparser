@@ -10,6 +10,7 @@ function parseSexp(input) {
 describe("Atom", function() {
 	it('should be parsed', function() {
 		assert.equal(parseSexp("1"), '1');
+		assert.equal(parseSexp("1 \t\f\t\r\n"), '1'); // remove trailing space
 
 		assert.equal(parseSexp("1.123"), '1.123');
 		assert.equal(parseSexp("-1.23"), '-1.23');
